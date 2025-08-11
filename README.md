@@ -162,8 +162,8 @@ Each configuration includes:
 
 | Resource | URL |
 |----------|-----|
-| 🌐 **ClishaChain Website** | [ClishaChain.io](https://ClishaChain.com/) |
-| 📊 **Mainnet Explorer** | [clishascan.io](http://clishascan.com) |
+| 🌐 **ClishaChain Website** | [ClishaChain.com](https://ClishaChain.com/) |
+| 📊 **Mainnet Explorer** | [clishascan.com](http://clishascan.com) |
 | 🧪 **Testnet Explorer** | [testnet.clishachain.com](http://testnet.clishachain.com/) |
 | 📦 **Latest Release** | [GitHub Releases](https://github.com/KalyCoinProject/KalyChain/releases/latest) |
 

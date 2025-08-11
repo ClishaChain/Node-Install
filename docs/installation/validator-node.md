@@ -23,7 +23,7 @@ Download the binary and clean up the zip file
 ```bash
 wget https://github.com/KalyCoinProject/KalyChain/releases/download/25.7.0/besu-25.7.0.zip
 sudo apt install unzip -y && unzip besu-25.7.0.zip
-sudo mv besu-25.7.0 clisha && rm besu-25.7.0.zip
+sudo mv besu-25.7.0 besu && rm besu-25.7.0.zip
 ```
 Make a data directory
 
