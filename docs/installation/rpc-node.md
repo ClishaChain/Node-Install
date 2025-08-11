@@ -1,21 +1,24 @@
-# RPC Node Setup
+# RPC Node Installation
 
-This guide assumes you using the [Security Best Practices](server/setup.md) setup guide on your server.
+This guide will help you set up a ClishaChain RPC node that provides API access for applications and services.
 
-We are providing this guide to encourage developers to run thier own RPC nodes whenever posible. Clisha Chain community members who wish to support the network can run an RPC node for Clisha Chain to support the network by providing additional public RPC nodes. 
+> **Prerequisites:** This guide assumes you have completed the [Server Setup](server-setup.md) guide for security hardening.
+
+We provide this guide to encourage developers to run their own RPC nodes whenever possible. ClishaChain community members who wish to support the network can run an RPC node to provide additional public RPC endpoints.
 
 
 ## Getting Started
 
-Follow the [Installation Guide](regular/Installation.md) just as you would with a regular node execpt change the clisha.service file line
+Follow the [Regular Node Installation Guide](regular-node.md) just as you would with a regular node, except change the clishanode.service file line:
 
 ```sh
-ExecStart=/home/$USER/node/../besu/bin/besu --config-file=/Node-Install/regular/config/config.toml
+ExecStart=/home/$USER/node/../clisha/bin/besu --config-file=/home/$USER/node-install/configs/regular/config.toml
 ```
-To this so it reads the proper _config.toml_ file for RPC nodes
+
+To this so it reads the proper _config.toml_ file for RPC nodes:
 
 ```sh
-ExecStart=/home/$USER/node/../besu/bin/besu --config-file=/Node-Install/rpc/config/config.toml
+ExecStart=/home/$USER/node/../clisha/bin/besu --config-file=/home/$USER/node-install/configs/rpc/config.toml
 ```
 
 {% hint style="info" %} :fire: **Pro Tip** The included a bash script *start_node.sh* is already setup to start your node with RPC services. Make the file exicutable by running *chmod +x start_node.sh*
@@ -52,7 +55,7 @@ Paste in the following configuration
 
 ```sh
 server {
-  server_name your_domain;
+  server_name rpc3.ClishaChain.io;
 
   location ^~ /ws {
     proxy_http_version 1.1;
@@ -84,7 +87,7 @@ Dont forget replace *your_domain* with your domain name before saving
 Create a link from the file to the *sites-enabled* directory
 
 ```sh
-sudo ln -s /etc/nginx/sites-available/your_domain /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/rpc2.ClishaChain.io /etc/nginx/sites-enabled/
 ```
 
 Test to make sure that there are no syntax errors in your Nginx files
@@ -109,7 +112,7 @@ sudo apt install certbot python3-certbot-nginx
 Get the SSL Cert for your domain 
 
 ```sh
-sudo certbot --nginx -d example.com
+sudo certbot --nginx -d rpc3.ClishaChain.io
 ```
 
 If that’s successful, certbot will ask how you’d like to configure your HTTPS settings.

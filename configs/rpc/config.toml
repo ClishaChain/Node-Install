@@ -13,11 +13,12 @@ rpc-http-api=["ETH","NET","WEB3","TRACE","TXPOOL"]
 rpc-http-enabled=true
 rpc-http-host="0.0.0.0"
 host-whitelist=["*"]
-
 revert-reason-enabled=true
-
-data-storage-format=FOREST
-sync-mode=FULL
+rpc-gas-cap=50000000
+host-allowlist=["*"]
+data-storage-format="FOREST"
+estimate-gas-tolerance-ratio=0.0 
+version-compatibility-protection=false
 
 # WS
 rpc-ws-enabled=true

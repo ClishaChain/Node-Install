@@ -1,73 +1,204 @@
-# Clisha Chain Setup for Nodes, Validators & RPC Services
+<div align="center">
+
+# 🔗 ClishaChain Node Installation & Management
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![ClishaChain](https://img.shields.io/badge/ClishaChain-v25.7.0-blue.svg)](https://github.com/KalyCoinProject/KalyChain)
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-20.04%20LTS-orange.svg)](https://ubuntu.com/)
+[![Java](https://img.shields.io/badge/Java-21-red.svg)](https://openjdk.org/)
+
+**Professional installation and management tools for ClishaChain blockchain nodes**
+
+[🌐 ClishaChain Website](https://ClishaChain.com/) • [📊 Block Explorer](http://clishascan.com)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [🔗 ClishaChain Node Installation \& Management](#-ClishaChain-node-installation--management)
+  - [📋 Table of Contents](#-table-of-contents)
+  - [🎯 Overview](#-overview)
+  - [📁 Repository Structure](#-repository-structure)
+  - [⚙️ System Requirements](#️-system-requirements)
+    - [Hardware Specifications](#hardware-specifications)
+    - [Network Ports](#network-ports)
+  - [🚀 Quick Start](#-quick-start)
+  - [📖 Documentation](#-documentation)
+  - [🛠️ Scripts \& Tools](#️-scripts--tools)
+  - [🔧 Configuration Files](#-configuration-files)
+  - [🔗 Important Links](#-important-links)
+  - [🤝 Contributing](#-contributing)
+  - [📞 Support](#-support)
+  - [📄 License](#-license)
+
+---
+
+## 🎯 Overview
+
+This repository provides comprehensive installation and management tools for ClishaChain blockchain nodes. Whether you're setting up a validator, regular node, or RPC service, this toolkit includes everything you need for a professional deployment.
+
+**Supported Node Types:**
+- 🔐 **Validator Nodes** - Participate in consensus and earn rewards
+- 🌐 **Regular Nodes** - Sync with the network and maintain blockchain data
+- 🔌 **RPC Nodes** - Provide API access for applications and services
+
+---
+
+## 📁 Repository Structure
+
+```
+📦 ClishaChain-node-install/
+├── 📚 docs/                    # Comprehensive documentation
+│   ├── 🛠️ installation/        # Installation guides
+│   ├── 🔧 maintenance/         # Upgrade and maintenance guides
+│   └── ⚙️ configuration/       # Configuration documentation
+├── 🚀 scripts/                 # Automation scripts
+│   ├── 📦 install/             # Installation scripts
+│   ├── ⬆️ upgrade/             # Upgrade scripts
+│   └── 🔧 maintenance/         # Maintenance utilities
+├── ⚙️ configs/                 # Configuration files
+│   ├── 🔐 validator/           # Validator node configs
+│   ├── 🌐 regular/             # Regular node configs
+│   └── 🔌 rpc/                 # RPC node configs
+├── 📋 templates/               # Service templates
+│   └── 🖥️ systemd/            # SystemD service files
+├── 📄 README.md                # This file
+└── 📜 LICENSE                  # License information
+```
+
+---
+
+## ⚙️ System Requirements
+
+### Hardware Specifications
+
+| Component | Minimum | Recommended | Enterprise |
+|-----------|---------|-------------|------------|
+| **CPU** | 2 cores | 4 cores | 8+ cores |
+| **RAM** | 4 GB | 8 GB | 16+ GB |
+| **Storage** | 100 GB SSD | 500 GB SSD | 1+ TB NVMe |
+| **Network** | 10 Mbps | 100 Mbps | 1+ Gbps |
+
+**Operating System:** Ubuntu 20.04 LTS 64-bit (recommended)
+
+### Network Ports
+
+#### Validator Nodes
+| Port | Protocol | Direction | Purpose |
+|------|----------|-----------|---------|
+| 30303 | TCP/UDP | Inbound/Outbound | P2P networking and discovery |
+
+#### Regular/RPC Nodes
+| Port | Protocol | Direction | Purpose |
+|------|----------|-----------|---------|
+| 30303 | TCP/UDP | Inbound/Outbound | P2P networking and discovery |
+| 8545 | TCP | Inbound | HTTP RPC API |
+| 8546 | TCP | Inbound | WebSocket RPC API |
+
+---
+
+## 🚀 Quick Start
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ClishaCoinProject/node-install.git
+   cd node-install
+   ```
+
+2. **Set up your server** (security hardening)
+   ```bash
+   # Follow the server setup guide
+   cat docs/installation/server-setup.md
+   ```
+
+3. **Choose your node type and follow the guide:**
+   - 🔐 [Validator Node](docs/installation/validator-node.md)
+   - 🌐 [Regular Node](docs/installation/regular-node.md)
+   - 🔌 [RPC Node](docs/installation/rpc-node.md)
+
+---
+
+## 📖 Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [🛡️ Server Setup](docs/installation/server-setup.md) | Security hardening and server preparation |
+| [🔐 Validator Node](docs/installation/validator-node.md) | Complete validator setup and configuration |
+| [🌐 Regular Node](docs/installation/regular-node.md) | Standard node installation |
+| [🔌 RPC Node](docs/installation/rpc-node.md) | RPC service setup with SSL |
+| [⬆️ Upgrade Guide](docs/maintenance/upgrade-guide.md) | Node upgrade procedures |
+| [🔧 Troubleshooting](docs/maintenance/troubleshooting.md) | Common issues and solutions |
+
+---
+
+## 🛠️ Scripts & Tools
+
+| Script | Purpose |
+|--------|---------|
+| [`scripts/install/start-validator.sh`](scripts/install/start-validator.sh) | Validator node startup script |
+| [`scripts/install/start-rpc.sh`](scripts/install/start-rpc.sh) | RPC node startup script |
+| [`scripts/upgrade/upgrade.sh`](scripts/upgrade/upgrade.sh) | Automated upgrade script |
+
+---
+
+## 🔧 Configuration Files
+
+Pre-configured files for different node types:
+
+- **Validator:** [`configs/validator/`](configs/validator/)
+- **Regular:** [`configs/regular/`](configs/regular/)
+- **RPC:** [`configs/rpc/`](configs/rpc/)
+
+Each configuration includes:
+- `config.toml` - Besu configuration
+- `genesis.json` - Network genesis file
+- `log-config.xml` - Logging configuration
+
+---
+
+## 🔗 Important Links
+
+| Resource | URL |
+|----------|-----|
+| 🌐 **ClishaChain Website** | [ClishaChain.io](https://ClishaChain.com/) |
+| 📊 **Mainnet Explorer** | [clishascan.io](http://clishascan.com) |
+| 🧪 **Testnet Explorer** | [testnet.clishachain.com](http://testnet.clishachain.com/) |
+| 📦 **Latest Release** | [GitHub Releases](https://github.com/KalyCoinProject/KalyChain/releases/latest) |
 
 
-- Visit [What is Clisha Chain](https://clishachain.com/) page to know more about us.
+---
 
-This page contains technical information needed to add a node on ClishaChain 
+## 🤝 Contributing
 
-## System requirements
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
-**Operating System**: Ubuntu 22.04 LTS 64 bits
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-**Hardware**:
+---
 
-| Hardware       | minimum | desired |
-| :------------- | :------ | :------ |
-| **CPU's**:     | 2       | 4       |
-| **Memory**:    | 4 Gb    | 8 Gb    |
-| **Hard Disk**: | 100 Gb  | 1000 Gb |
+## 📞 Support
 
-### TCP/UDP PORTS
+Need help? We're here for you:
 
-You'll need to open the following ports in both ways to deploy a node:
+- 🐛 **Issues:** [GitHub Issues](https://github.com/ClishaCoinProject/node-install/issues)
 
-#### Validator Node
+---
 
-| Port  | Type |      To       | Definition                                   |
-| :---: | :--: | :-----------: | :------------------------------------------- |
-| 30303 | TCP  |    0.0.0.0    | Ethereum client listener and discovery ports |
-| 30303 | UDP  |    0.0.0.0    | Ethereum client listener and discovery ports |
+## 📄 License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-#### Regular/RPC Node
+---
 
-| Port  | Type |                 To                  | Definition                                   |
-| :---: | :--: | :---------------------------------: | :------------------------------------------- |
-| 30303 | TCP  |               0.0.0.0               | Listener and discovery ports                 |
-| 30303 | UDP  |               0.0.0.0               | Listener and discovery ports                 |
-| 8545  | TCP  | 0.0.0.0 (this can be internal only) | RPC HTTP Port                                |
-| 8546  | TCP  | 0.0.0.0 (this can be internal only) | RPC WS Port                                  |
+<div align="center">
 
+**Made with ❤️ by the ClishaChain Community**
 
-## Installation & configuration
+[⭐ Star this repository](https://github.com/ClishaCoinProject/node-install) if it helped you!
 
-### Server Setup
-
-Start with server setup in the _server_ directory
-
-- [Server Setup Guide](server/setup.md)
-
-### Regular node
-
-Use the _regular_ directory
-
-- [Regular node Installation Guide](regular/Installation.md)
-
-### RPC node
-
-Use the _rpc_ directory
-
-- [RPC and WebSocket Guide](rpc/Installation.md)
-
-### Validator node
-
-Use the _validator_ directory
-
-- [Validator node Installation Guide](validator/Installation.md)
-
-
-## Important links
-
-- [Mainnet Block Explorer](http://clishascan.com)
-- [Testnet Block Explorer](http://testnet.clishachain.com/)
-- [Download Clisha Chain Binary](https://github.com/ClishaChain/ClishaChain/releases/download/v24.6.0/besu-24.6.0.zip)
+</div>

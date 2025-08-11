@@ -1,8 +1,10 @@
-# Node Installation (with Binaries)
+# Validator Node Installation (with Binaries)
 
-This guide assumes you using the [Security Best Practices](server/setup.md) setup guide on your server.
+This guide will help you set up a ClishaChain validator node that participates in consensus and earns block rewards.
 
-{% hint style="warning" %} You and ONLY YOU are responisble for securing your server. The Validator private key is not encrypted! Failing to properly secure your server can result in the loss of funds. To furhter prevent the loss of funds we recomend adding the Validator private key to metmask or some other compatable web3 wallet and moving funds to a seperate address on a regular basis. {% endhint %}
+> **Prerequisites:** This guide assumes you have completed the [Server Setup](server-setup.md) guide for security hardening.
+
+> **⚠️ Security Warning:** You and ONLY YOU are responsible for securing your server. The validator private key is not encrypted! Failing to properly secure your server can result in the loss of funds. To further prevent the loss of funds, we recommend adding the validator private key to MetaMask or another compatible web3 wallet and moving funds to a separate address on a regular basis.
 
 ## Getting Started
 
@@ -19,9 +21,9 @@ sudo apt install openjdk-21-jre-headless -y
 Download the binary and clean up the zip file
 
 ```bash
-wget https://github.com/ClishaChain/ClishaChain/releases/download/v24.6.0/besu-24.6.0.zip
-sudo apt install unzip -y && unzip besu-24.6.0.zip
-sudo mv besu-24.6.0 besu && rm besu-24.6.0.zip
+wget https://github.com/KalyCoinProject/KalyChain/releases/download/25.7.0/besu-25.7.0.zip
+sudo apt install unzip -y && unzip besu-25.7.0.zip
+sudo mv besu-25.7.0 clisha && rm besu-25.7.0.zip
 ```
 Make a data directory
 
@@ -32,15 +34,35 @@ mkdir node && mkdir node/data
 In this example the node/data directories are where the blockchain and genesis files will be stored. You can choose to store these files in other locations based on your setup. If you change the location of these files then you will need to update the paths when starting the node.
 {% endhint %}
 
-Copy the genesis file to the new node directory. You can find the _genesis.json_ file in the **config** directory of this repo.
+Copy the genesis file to the new node directory. You can find the _genesis.json_ file in the **configs** directory of this repo.
 
 ```bash
-cp Node-Install/regular/config/genesis.json  node/genesis.json
+cp configs/validator/genesis.json node/genesis.json
 ```
 
-## Start the Clisha Chain node.
+## Validator configuration
 
-In this section, a daemon will be created to start the Clisha Chain node in case of server crashes, unexpected restarts, etc.
+Create a new private key, public key and node address with the following commands.
+
+```sh
+cd /clisha/bin/besu
+./besu --data-path=. public-key export --to=key.pub
+./besu --data-path=. public-key export-address --to=nodeAddress
+```
+{% hint style="info" %} The oututs of each command will print the key and node address on screen, make sure your copy them to a safe place, you will need them later to be added as a Validator and to add to your wallet (metamask or other) to collect block rewards.
+{% endhint %}
+
+The keys 'key', 'key.pub' and 'nodeAddress' will have been generated and there gonna be stored in the **node/data** directory.
+
+```sh
+mv key node/data
+mv key.pub node/data
+mv nodeAddress node/data
+```
+
+## Start the ClishaChain node.
+
+In this section, a daemon will be created to start the ClishaChain node in case of server crashes, unexpected restarts, etc.
 
 {% hint style="info" %} :fire: **Pro Tip** We have included a bash script named *start_node.sh* to run these steps for you, please review it and make any changes to paths as needed for your setup. Make the file exicutable by running *chmod +x start_node.sh*
 {% endhint %}
@@ -49,7 +71,7 @@ The first thing is to create the file for the besu service. To do this, the foll
 
 ```sh
 cd /lib/systemd/system
-sudo nano clisha.service
+sudo nano clishanode.service
 ```
 
 The following variables will be put in this file: `StartLimitBurst` and `RestartSec` will cause it to make 5 restart attempts every 10s and if it fails at all it will stop trying. 
@@ -66,7 +88,7 @@ WorkingDirectory=/home/$USER/node/
 Type=simple
 User=$USER
 Group=$USER
-ExecStart=/home/$USER/node/../besu/bin/besu --config-file=/Node-Install/regular/config/config.toml
+ExecStart=/home/$USER/node/../clisha/bin/besu --config-file=/home/$USER/node-install/configs/validator/config.toml
 Restart=always
 RestartSec=30
 
@@ -74,25 +96,25 @@ RestartSec=30
 WantedBy=multi-user.target
 ```
 
-Once the _clisha.services_ file has been saved, this service is started. Run the following commands.
+Once the _clishanode.services_ file has been saved, this service is started. Run the following commands.
 
 To let the system know that there is a new daemon that must be started at every boot, the following will be executed:
 
 ```sh
 sudo systemctl daemon-reload
-sudo systemctl enable clisha.service
+sudo systemctl enable clishanode.service
 ```
 
 To start the service run the following command.
 
 ```sh
-sudo systemctl start clisha.service
+sudo systemctl start clishanode.service
 ```
 
 Finally, to ensure that the service is correctly started it will run:
 
 ```sh
-sudo systemctl status clisha.service
+sudo systemctl status clishanode.service
 ```
 
 Getting a result like this.
@@ -105,7 +127,7 @@ Getting a result like this.
       Tasks: 80 (limit: 18979)
      Memory: 1.1G
      CGroup: /system.slice/clisha.service
-             └─4543 java -Dvertx.disableFileCPResolving=true -Dbesu.home=/home/clisha/besu -Dlog4j.shutdownHookEnabled=false -Dlog4j2.formatMsgNoLookups=true -Djava.util.logging.manager=org.apache.logging.l>
+             └─4543 java -Dvertx.disableFileCPResolving=true -Dbesu.home=/home/dev/besu -Dlog4j.shutdownHookEnabled=false -Dlog4j2.formatMsgNoLookups=true -Djava.util.logging.manager=org.apache.logging.l>
 
 Mar 31 00:27:37 sea-sm5038md-h24trf-2-21 besu[4543]: 2023-03-31 00:27:37.023+00:00 | EthScheduler-Workers-0 | INFO  | PersistBlockTask | Imported 268,228 / 0 tx / 0 om / 0 (0.0%) gas / (0x8d24d427e3ed30>
 Mar 31 00:27:39 sea-sm5038md-h24trf-2-21 besu[4543]: 2023-03-31 00:27:39.005+00:00 | EthScheduler-Workers-0 | INFO  | PersistBlockTask | Imported 268,229 / 0 tx / 0 om / 0 (0.0%) gas / (0xff9342efd96c96>
@@ -119,9 +141,60 @@ Mar 31 00:27:53 sea-sm5038md-h24trf-2-21 besu[4543]: 2023-03-31 00:27:53.025+00:
 Mar 31 00:27:55 sea-sm5038md-h24trf-2-21 besu[4543]: 2023-03-31 00:27:55.007+00:00 | EthScheduler-Workers-0 | INFO  | PersistBlockTask | Imported 268,237 / 0 tx / 0 om / 0 (0.0%) gas / (0x0869b88844d601>
 ```
 
+## Adding your node as a Validator
+
+At this time existing Validators must propose and vote to add new Validators. You must contact and admin on [discord](https://discord.gg/bvtm6dUf) or [telegram](https://t.me/+yj8Ae9lNXmg1Yzkx), providing this information for your node: 
+
+**1. ENODE:** String ENODE from ENODE_ADDRESS (enode://ENODE@IP:30303)
+
+**2. Public IP:** The external IP of your node.
+
+**3. System details:** Hosting provider, number of cores (vCPUs), RAM Memory and Hard disk size.
+
+
+Follow these steps to get the information that you will be asked for:
+
+* You can find the ENODE_ADDRESS using `curl -X POST --data '{"jsonrpc":"2.0","method":"admin_nodeInfo","params":[],"id":1}' http://127.0.0.1:8545`.
+
+* Get the IP address of your node, as seen from the external world. 
+
+```sh
+$ curl https://ifconfig.me/
+```
+
+You can also get the ENODE_ADDRESS if you have saved the node address from the previous steps
+
+For example if the node public key was:
+
+ ```sh
+ 0xc35c3ec90a8a51fd5703594c6303382f3ae6b2ecb9589bab2c04b3794f2bc3fc2631dabb0c08af795787a6c004d8f532230ae6e9925cbbefb0b28b79295d615f
+ ``` 
+ And if the IP address of your node was: 
+
+ ```sh
+ 123.4.56.7
+ ```  
+ Then the enode URL is: 
+
+ ```sh
+ enode://c35c3ec90a8a51fd5703594c6303382f3ae6b2ecb9589bab2c04b3794f2bc3fc2631dabb0c08af795787a6c004d8f532230ae6e9925cbbefb0b28b79295d615f@123.4.56.7:30303
+ ``` 
+
+* When more than 50% of the existing validators have published a matching proposal, the protocol adds the proposed validator to the validator pool and the validator can begin validating blocks. You will then see your _nodeAddress_ on [ClishaScan](https://clishascan.io) start earning block rewards. 
+
+**Please NOTE** As a Validator you will be expected to participate in Voting for or against new Validators and maintain your server in optimal conditions. Validators who fail to keep there nodes available to validate blocks can be Voted out. 
+
+To propose adding a validator, call *qbft_proposeValidatorVote*, specifying the address of the proposed validator and true. 
+
+Example JSON-RPC call
+
+ ```sh
+curl -X POST --data '{"jsonrpc":"2.0","method":"qbft_proposeValidatorVote","params":["0xAE6B557E8Fb62b89F4916F720be55cEb828dBc74", true], "id":1}' <JSON-RPC-endpoint:port>
+```
+
 **Optional**
 
-In order to control the Validator logs, Clisha Chain allows you to [configure your logs](https://besu.hyperledger.org/en/stable/public-networks/how-to/monitor/logging/) thanks to [log4j2](https://logging.apache.org/log4j/2.x/manual/configuration.html), being able to change the format in which you take them out, if you make rotations, if you compress the new files, how many you save and where you save them, etc. To do this, a file called **log-config.xml** is stored in _config_.
+In order to control the Validator logs, ClishaChain allows you to [configure your logs](https://besu.hyperledger.org/en/stable/public-networks/how-to/monitor/logging/) thanks to [log4j2](https://logging.apache.org/log4j/2.x/manual/configuration.html), being able to change the format in which you take them out, if you make rotations, if you compress the new files, how many you save and where you save them, etc. To do this, a file called **log-config.xml** is stored in _config_.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -170,10 +243,10 @@ In this case, the configuration that has been decided on is as follows.
 ```
 
 If you use this setup for log rotation:
-Add the environment variable `LOG4J_CONFIGURATION_FILE` to the clisha.service file by adding this line.
+Add the environment variable `LOG4J_CONFIGURATION_FILE` to the clishanode.service file by adding this line.
 
 ```bash
-Environment=LOG4J_CONFIGURATION_FILE=/Node-Install/regular/config/log-config.xml
+Environment=LOG4J_CONFIGURATION_FILE=/home/$USER/node-install/configs/validator/log-config.xml
 ```
 
 You can view the log file you have generated with this command.

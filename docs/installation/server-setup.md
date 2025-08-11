@@ -8,7 +8,7 @@ Completing this guide will provide a solid baseline to protect and secure your n
 
 ## :robot: Pre-requisites
 
-**Operating System**: Ubuntu 22.04 LTS 64 bits
+**Operating System**: Ubuntu 20.04 LTS 64 bits
 
 **Hardware**:
 
@@ -32,7 +32,7 @@ Begin by connecting to your Ubuntu Server with your SSH client.
 ssh root@node.ip.address
 ```
 
-Create a new user called clisha or any name you wish just remember to replace "clisha" with the user name you want in the other commands. 
+Create a new user called clisha
 
 ```
 sudo useradd -m -s /bin/bash clisha
